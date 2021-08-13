@@ -1,0 +1,39 @@
+
+######################################################################################################################
+
+								Physical mechanisms of ESCRT-III-driven cell division
+
+Example code replicating the main simulations discussed in "Physical mechanisms of ESCRT-III-driven cell division" (Harker-Kirschneck et al. - PNAS 2021). 
+
+This is a Molecular Dynamics simulation, running on LAMMPS. It requires the use of the special potential "pair_membrane" (Yuan et al. - PRE 2010) not present in the latest versions of LAMMPS. Therefore, we suggest referring to https://github.com/takenbymood/np-toolkit for an easy intallation package.
+
+This repository contains two different folders: /base_code and /continue_code
+
+	In /base_code you will find the required files to run the basic simulation of a model ESCRT-III filament inside a membrane vesicle constricting and eventually splitting the vesicle in two. The simulation consists first of a relaxation stage during which the filament binds to the membrane, followed by a constriction and disassembly stage initiated by the imposed instantaneous change in the filament's curvature (via the bonds, which are all transformed simultaneously). Following the curvature change, the filament evolves naturally towards the supercoiled state described in the text. Concomittantly, we also impose artificially the filament disassembly by breaking bonds sequentially from the two ends at a certain rate. This simulation continues until the last bond of the filament has been broken and the ESCRT-III is now in monomeric form.
+
+	In /continue_code you will find the required files to continue the above simulation further beyond filament disassembly to observe how the membrane behaves in its new configuration.
+
+As discussed in the text, the whole system is controlled only by two parameters: the degree of curvature change in the filament, set here to Rtarget/R0 ~ 5%, and the rate of disassembly, set here to an intermediate value (vdis ~ 500/tau). Such a choice of parameters guarantees the proper division of the vesicle, as discussed in the main text (see Figure 2a), which is why we have chosen it for this example.
+
+######################################################################################################################
+
+													HOW TO USE
+
+In order to run this simulation you just need to install the correct version of LAMMPS, for which you can find help at the following repository: https://github.com/takenbymood/np-toolkit
+
+Once you have installed LAMMPS with all the required files for the special potentials you can just run the base code from its folder as follows:
+
+Inside /base_code:
+	[your_lammps_path] -in in.local
+	e.g. /my_software/lammps_special_version/lmp_mpi -in in.local
+
+Once you have completed that simulation you can choose to run the continuation. For that you need to first copy the continue file from /base_code to /continue_code as follows:
+
+Inside this repository:
+	cp /base_code/continue.dat /continue_code/continue.dat
+
+You can then run the same command as for the base code but now inside /continue_code.
+
+You can visualise and analyse the resulting trajectories, stored in output.xyz and output_cont.xyz as you wish.
+
+######################################################################################################################
