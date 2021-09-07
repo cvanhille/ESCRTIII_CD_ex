@@ -17106,4 +17106,4 @@ pair_coeff	1	721	 lj/cut 	 ${eps_mu} 	 ${sigma_mu} 	 ${rc_mu}
 #run_final
 timestep	0.01
 thermo		1000
-run		100000
+run		1060000
